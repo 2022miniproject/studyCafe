@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "mini.h"
+#include <stdlib.h>
 
 typedef struct{
     char name[255]; //이름
