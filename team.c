@@ -5,7 +5,7 @@ typedef struct{
     char name[255]; //이름
     char phone_num[15]; //휴대폰 번호
     int seat_num; // 자리선택 (1~100)
-    int seat_hour; // 시간 선택 (3시간, 6시간, 9시간, 12시간, 24시간)
+    int seat_hour; // 시간 선택 (시간당 )
     int price; // 가격 (자동으로 저장됨)
 } Seat;
 
@@ -154,7 +154,7 @@ int updateReserv(Seat *s){
     printf("새 자리를 선택해주세요(1~100 중에 선택):");
     scanf("%d", &s->seat_num);
 
-    printf("새 시간을 선택해주세요(3,6,9,12,24 중 선택):");
+    printf("새 시간을 선택해주세요(시간당 천원):");
     scanf("%d", &s->seat_hour);
 
     //가격저장
