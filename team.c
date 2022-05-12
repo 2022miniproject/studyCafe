@@ -2,40 +2,40 @@
 #include <string.h>
 
 typedef struct{
-    char name[255]; //ÀÌ¸§
-    char phone_num[15]; //ÈŞ´ëÆù ¹øÈ£
-    int seat_num; // ÀÚ¸®¼±ÅÃ (1~100)
-    int seat_hour; // ½Ã°£ ¼±ÅÃ (3½Ã°£, 6½Ã°£, 9½Ã°£, 12½Ã°£, 24½Ã°£)
-    int price; // °¡°İ (ÀÚµ¿À¸·Î ÀúÀåµÊ)
+    char name[255]; //ì´ë¦„
+    char phone_num[15]; //íœ´ëŒ€í° ë²ˆí˜¸
+    int seat_num; // ìë¦¬ì„ íƒ (1~100)
+    int seat_hour; // ì‹œê°„ ì„ íƒ (3ì‹œê°„, 6ì‹œê°„, 9ì‹œê°„, 12ì‹œê°„, 24ì‹œê°„)
+    int price; // ê°€ê²© (ìë™ìœ¼ë¡œ ì €ì¥ë¨)
 } Seat;
 
 
-int loadData(Seat *s); // 0.±âÁ¸ µ¥ÀÌÅÍ ºÒ·¯¿À±â
-void readReserv(Seat s); //1-1. Á¶È¸( ¿¹¾à»óÅÂ, »ç¿ëÁß À¯¹Â, À½½Ä ÁÖ¹® À¯¹«) (ÀüÃ¼ µî·ÏµÈ Á¦Ç° ¸®½ºÆ® Ãâ·Â R-2)
-void listReserv(Seat *s, int count); //1-2. Á¶È¸(¸Ş´º ¸®½ºÆ® Ãâ·Â R-1)
-int addReserv(Seat *s); //2.¿¹¾à -> ÀÌ¹Ì »ç¿ëÁßÀÌ°Å³ª ¿¹¾àÇßÀ¸¸é ¡°ÀÌ¹Ì ¿¹¾à µÇ¾ú½À´Ï´Ù.¡± or ¡°ÀÌ¹Ì »ç¿ëÁßÀÔ´Ï´Ù.¡± Ç¥½Ã (Á¦Ç°À» Ãß°¡ÇÏ´Â ÇÔ¼ö C)
-int deleteReserv(Seat *s); //3.¿¹¾à Ãë¼Ò (Á¦Ç°À» »èÁ¦ÇÏ´Â ÇÔ¼ö D)
-int updateReserv(Seat *s); //4. ¿¹¾àº¯°æ (Á¦Ç°À» ¼öÁ¤ÇÏ´Â ÇÔ¼ö U)
-//int plusTime(); //5.½Ã°£ Ãß°¡ -> »ç¿ëÁßÀÌ ¾Æ´Ï¸é ¡°¸ÕÀú »ç¿ë ¿¹¾àÀ» ÇØÁÖ½Ã±æ ¹Ù¶ø´Ï´Ù.¡± Ç¥½Ã => ¾ø¾îµµµÉµí?
+int loadData(Seat *s); // 0.ê¸°ì¡´ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸°
+void readReserv(Seat s); //1-1. ì¡°íšŒ( ì˜ˆì•½ìƒíƒœ, ì‚¬ìš©ì¤‘ ìœ ë®¤, ìŒì‹ ì£¼ë¬¸ ìœ ë¬´) (ì „ì²´ ë“±ë¡ëœ ì œí’ˆ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥ R-2)
+void listReserv(Seat *s, int count); //1-2. ì¡°íšŒ(ë©”ë‰´ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥ R-1)
+int addReserv(Seat *s); //2.ì˜ˆì•½ -> ì´ë¯¸ ì‚¬ìš©ì¤‘ì´ê±°ë‚˜ ì˜ˆì•½í–ˆìœ¼ë©´ â€œì´ë¯¸ ì˜ˆì•½ ë˜ì—ˆìŠµë‹ˆë‹¤.â€ or â€œì´ë¯¸ ì‚¬ìš©ì¤‘ì…ë‹ˆë‹¤.â€ í‘œì‹œ (ì œí’ˆì„ ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜ C)
+int deleteReserv(Seat *s); //3.ì˜ˆì•½ ì·¨ì†Œ (ì œí’ˆì„ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜ D)
+int updateReserv(Seat *s); //4. ì˜ˆì•½ë³€ê²½ (ì œí’ˆì„ ìˆ˜ì •í•˜ëŠ” í•¨ìˆ˜ U)
+//int plusTime(); //5.ì‹œê°„ ì¶”ê°€ -> ì‚¬ìš©ì¤‘ì´ ì•„ë‹ˆë©´ â€œë¨¼ì € ì‚¬ìš© ì˜ˆì•½ì„ í•´ì£¼ì‹œê¸¸ ë°”ëë‹ˆë‹¤.â€ í‘œì‹œ => ì—†ì–´ë„ë ë“¯?
 
-void saveData(Seat *s, int count); //7.ÆÄÀÏÀúÀå
-void searchReserv(Seat *s, int count); //8. ¿¹¾àÀÚ °Ë»ö(¿¹¾àÀÚ¸í) (ÁÖ¹®ÇÑ À½½Ä À¯¹Â È®ÀÎ, ÀÖ´Ù¸é ÁÖ¹® ÇöÈ²±îÁö Ç¥½Ã)
+void saveData(Seat *s, int count); //7.íŒŒì¼ì €ì¥
+void searchReserv(Seat *s, int count); //8. ì˜ˆì•½ì ê²€ìƒ‰(ì˜ˆì•½ìëª…) (ì£¼ë¬¸í•œ ìŒì‹ ìœ ë®¤ í™•ì¸, ìˆë‹¤ë©´ ì£¼ë¬¸ í˜„í™©ê¹Œì§€ í‘œì‹œ)
 
 int selectDataNo(Seat *s, int count);
 
-int selectMenu(){ // ¸Ş´ºÆÇ
+int selectMenu(){ // ë©”ë‰´íŒ
     int menu;
     printf("\n===========[ STUDY CAFE ]===========\n");
-    printf("1. Á¶È¸\n");
-    printf("2. ¿¹¾à\n");
-    printf("3. ¿¹¾à Ãë¼Ò\n");
-    printf("4. ¿¹¾à º¯°æ\n");
-    printf("5. ½Ã°£ Ãß°¡\n");
-    printf("6. À½½Ä ÁÖ¹®\n");
-    printf("7. ¸®½ºÆ® ÀúÀå\n");
-    printf("8. ¿¹¾àÀÚ °Ë»ö\n");
-    printf("0. Á¾·á\n\n");
-    printf("=> ¿øÇÏ½Ã´Â ¸Ş´º¸¦ °í¸£¼¼¿ä! ");
+    printf("1. ì¡°íšŒ\n");
+    printf("2. ì˜ˆì•½\n");
+    printf("3. ì˜ˆì•½ ì·¨ì†Œ\n");
+    printf("4. ì˜ˆì•½ ë³€ê²½\n");
+    printf("5. ì‹œê°„ ì¶”ê°€\n");
+    printf("6. ìŒì‹ ì£¼ë¬¸\n");
+    printf("7. ë¦¬ìŠ¤íŠ¸ ì €ì¥\n");
+    printf("8. ì˜ˆì•½ì ê²€ìƒ‰\n");
+    printf("0. ì¢…ë£Œ\n\n");
+    printf("=> ì›í•˜ì‹œëŠ” ë©”ë‰´ë¥¼ ê³ ë¥´ì„¸ìš”! ");
     scanf("%d", &menu);
     return menu;
 }
@@ -66,11 +66,11 @@ int main(void){
         else if (menu == 3){
             int no = selectDataNo(slist, index);
             if(no == 0){
-                printf("-->Ãë¼ÒµÇ¾úÀ½\n");
+                printf("-->ì·¨ì†Œë˜ì—ˆìŒ\n");
                 continue;
             }
             int delete_ok;
-            printf("Á¤¸»·Î »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?(»èÁ¦ :1)");
+            printf("ì •ë§ë¡œ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?(ì‚­ì œ :1)");
             scanf("%d", &delete_ok);
             if(delete_ok == 1){
                 if(deleteReserv(&slist[no-1])) count--;
@@ -79,7 +79,7 @@ int main(void){
         else if (menu == 4){
             int no = selectDataNo(slist, index);
             if(no == 0){
-                printf("-->Ãë¼ÒµÇ¾úÀ½!\n");
+                printf("-->ì·¨ì†Œë˜ì—ˆìŒ!\n");
                 continue;
             }
             updateReserv(&slist[no-1]);
@@ -93,28 +93,28 @@ int main(void){
             searchReserv(slist, index);
         }
     }
-    printf("Á¾·áµÊ!\n");
+    printf("ì¢…ë£Œë¨!\n");
     return 0;
 }
 
 
 int addReserv(Seat *s){
     getchar();
-    printf("ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä:");
+    printf("ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”:");
     fgets(s->name,255,stdin);
     s->name[strlen(s->name)-1] = '\0';
     
     //getchar();
-    printf("ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä(Çü½Ä: 010-****-****):");
+    printf("ì „í™”ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”(í˜•ì‹: 010-****-****):");
     scanf("%s", s->phone_num);
 
-    printf("ÀÚ¸®¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä(1~100 Áß¿¡ ¼±ÅÃ):");
+    printf("ìë¦¬ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”(1~100 ì¤‘ì— ì„ íƒ):");
     scanf("%d", &s->seat_num);
 
-    printf("½Ã°£À» ¼±ÅÃÇØÁÖ¼¼¿ä(½Ã°£´ç Ãµ¿ø):");
+    printf("ì‹œê°„ì„ ì„ íƒí•´ì£¼ì„¸ìš”(ì‹œê°„ë‹¹ ì²œì›):");
     scanf("%d", &s->seat_hour);
 
-    //°¡°İÀúÀå
+    //ê°€ê²©ì €ì¥
     s->price = 1000*s->seat_hour;
     
 
@@ -125,45 +125,45 @@ void listReserv(Seat *s, int count){
     printf("======================\n");
     for(int i=0; i<count; i++){
         if(s[i].price == -1){continue;} 
-        printf("      <%2d¹ø>\n", i+1);
+        printf("      <%2dë²ˆ>\n", i+1);
         readReserv(s[i]);
 
     }
 }
 void readReserv(Seat s){
     //int count = 1;
-    printf("ÀÌ¸§:%s\nÈŞ´ëÆù¹øÈ£:%s\nÀÚ¸®¹øÈ£:%d\n½Ã°£:%d\n°¡°İ:%d\n"
+    printf("ì´ë¦„:%s\níœ´ëŒ€í°ë²ˆí˜¸:%s\nìë¦¬ë²ˆí˜¸:%d\nì‹œê°„:%d\nê°€ê²©:%d\n"
     ,s.name, s.phone_num, s.seat_num, s.seat_hour, s.price);
 }
 int selectDataNo(Seat *s, int count){
     int no;
     listReserv(s, count);
-    printf("\n¹øÈ£´Â (Ãë¼Ò :0)?");
+    printf("\në²ˆí˜¸ëŠ” (ì·¨ì†Œ :0)?");
     scanf("%d", &no);
     return no;
 }
 int updateReserv(Seat *s){
     getchar();
-    printf("»õ ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä:");
+    printf("ìƒˆ ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”:");
     fgets(s->name,255,stdin);
     s->name[strlen(s->name)-1] = '\0';
     
-    printf("»õ ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä(Çü½Ä: 010-****-****):");
+    printf("ìƒˆ ì „í™”ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”(í˜•ì‹: 010-****-****):");
     scanf("%s", s->phone_num);
 
-    printf("»õ ÀÚ¸®¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä(1~100 Áß¿¡ ¼±ÅÃ):");
+    printf("ìƒˆ ìë¦¬ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”(1~100 ì¤‘ì— ì„ íƒ):");
     scanf("%d", &s->seat_num);
 
-    printf("»õ ½Ã°£À» ¼±ÅÃÇØÁÖ¼¼¿ä(3,6,9,12,24 Áß ¼±ÅÃ):");
+    printf("ìƒˆ ì‹œê°„ì„ ì„ íƒí•´ì£¼ì„¸ìš”(3,6,9,12,24 ì¤‘ ì„ íƒ):");
     scanf("%d", &s->seat_hour);
 
-    //°¡°İÀúÀå ¹ÎÁ¦ÇÑÅ× ¹°¾îº¸±â
+    //ê°€ê²©ì €ì¥ ë¯¼ì œí•œí…Œ ë¬¼ì–´ë³´ê¸°
 
     return 1;
 }
 int deleteReserv(Seat *s){
     s->price = -1;
-    printf("--> »èÁ¦µÊ!\n");
+    printf("--> ì‚­ì œë¨!\n");
     return 1;
 }
 void saveData(Seat *s, int count)
@@ -180,12 +180,12 @@ void saveData(Seat *s, int count)
         //fprintf(fp,"%d\n",s[i].seat_hour);
         //fprintf(fp,"%d\n",s[i].price);
 
-        //ÀÌ¸§:%s\nÈŞ´ëÆù¹øÈ£:%d\nÀÚ¸®¹øÈ£:%d\n½Ã°£:%d\n°¡°İ:%d\n"
+        //ì´ë¦„:%s\níœ´ëŒ€í°ë²ˆí˜¸:%d\nìë¦¬ë²ˆí˜¸:%d\nì‹œê°„:%d\nê°€ê²©:%d\n"
         fprintf(fp, "%s %d %d %d %s\n", s[i].phone_num, s[i].seat_num, s[i].seat_hour, s[i].price, s[i].name);
     
     }
     fclose(fp);
-    printf("=> ÀúÀåµÊ!\n");
+    printf("=> ì €ì¥ë¨!\n");
 }
 int loadData(Seat *s){
     int count = 0, i = 0;
@@ -212,9 +212,9 @@ int loadData(Seat *s){
             s[i].name[strlen(s[i].name)-1] = '\0';
         }
         fclose(fp);
-        printf("\n=> ·Îµù ¼º°ø!\n");
+        printf("\n=> ë¡œë”© ì„±ê³µ!\n");
     }else{
-        printf("\n=> ÆÄÀÏ ¾øÀ½...\n");
+        printf("\n=> íŒŒì¼ ì—†ìŒ...\n");
     }
 
     return i;
@@ -224,7 +224,7 @@ void searchReserv(Seat *s, int count){
     char search[20];
     
     getchar();
-    printf("°Ë»öÇÒ ÀÌ¸§?:");
+    printf("ê²€ìƒ‰í•  ì´ë¦„?:");
     fgets(search,255,stdin);
     search[strlen(search)-1] = '\0';
 
@@ -232,11 +232,11 @@ void searchReserv(Seat *s, int count){
     for(int i=0; i < count; i++){
         if(s[i].price == -1) continue;
         if(strstr(s[i].name, search)){
-            printf("      <%2d¹ø>\n", i+1);
+            printf("      <%2dë²ˆ>\n", i+1);
             readReserv(s[i]);
             scnt++;
         }
     }
-    if(scnt == 0) printf("=> °Ë»öµÈ µ¥ÀÌÅÍ ¾øÀ½!");
+    if(scnt == 0) printf("=> ê²€ìƒ‰ëœ ë°ì´í„° ì—†ìŒ!");
     printf("\n");
 }
