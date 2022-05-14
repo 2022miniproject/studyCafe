@@ -364,4 +364,3 @@ void order(struct food_struct *p[], int count)
 	fclose(fp);
 	printf("=> 주문이 저장 되었습니다.\n");
 }
-
