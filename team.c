@@ -217,13 +217,7 @@ void saveData(Seat *s, int count)
     for(int i =0; i < count; i++){
         if(s[i].price == -1) continue;
 
-        //fprintf(fp,"%s\n", s[i].name);
-        //fprintf(fp,"%d\n",s[i].phone_num);
-        //fprintf(fp,"%d\n",s[i].seat_num);
-        //fprintf(fp,"%d\n",s[i].seat_hour);
-        //fprintf(fp,"%d\n",s[i].price);
 
-        //이름:%s\n휴대폰번호:%d\n자리번호:%d\n시간:%d\n가격:%d\n"
         fprintf(fp, "%s %d %d %d %s\n", s[i].phone_num, s[i].seat_num, s[i].seat_hour, s[i].price, s[i].name);
     
     }
