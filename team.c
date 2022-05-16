@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 typedef struct{
     char name[255]; //이름
@@ -9,6 +10,15 @@ typedef struct{
     int price; // 가격 (자동으로 저장됨)
 } Seat;
 
+struct food_struct
+{
+   int count;
+   int price;
+   int number;
+   char menu[100];
+   char list[20];
+};
+
 
 int loadData(Seat *s); // 0.기존 데이터 불러오기
 void readReserv(Seat s); //1-1. 조회( 예약상태, 사용중 유뮤, 음식 주문 유무) (전체 등록된 제품 리스트 출력 R-2)
@@ -16,12 +26,19 @@ void listReserv(Seat *s, int count); //1-2. 조회(메뉴 리스트 출력 R-1)
 int addReserv(Seat *s); //2.예약 -> 이미 사용중이거나 예약했으면 “이미 예약 되었습니다.” or “이미 사용중입니다.” 표시 (제품을 추가하는 함수 C)
 int deleteReserv(Seat *s); //3.예약 취소 (제품을 삭제하는 함수 D)
 int updateReserv(Seat *s); //4. 예약변경 (제품을 수정하는 함수 U)
-//int plusTime(); //5.시간 추가 -> 사용중이 아니면 “먼저 사용 예약을 해주시길 바랍니다.” 표시 => 없어도될듯?
 
-void saveData(Seat *s, int count); //7.파일저장
-void searchReserv(Seat *s, int count); //8. 예약자 검색(예약자명) (주문한 음식 유뮤 확인, 있다면 주문 현황까지 표시)
+void saveData(Seat *s, int count); //6.파일저장
+void searchReserv(Seat *s, int count); //7. 예약자 검색(예약자명) (주문한 음식 유뮤 확인, 있다면 주문 현황까지 표시)
+int plusTime(Seat *s); //8.시간 추가 
 
 int selectDataNo(Seat *s, int count);
+
+void Clear(void);
+void menu();
+void showlist(struct food_struct *p[], int count); // 5-1. 주문한 음식 보여주기
+int plusfood(struct food_struct *p[], int count); // 5-2. 음식 주문하기
+int deletefood(struct food_struct *p[], int count); // 5-3. 주문한 음식 삭제하기
+void order(struct food_struct *p[], int count); // 5-4. 음식 주문 넣기 (음식 주문 확정하기)
 
 int selectMenu(){ // 메뉴판
     int menu;
@@ -30,10 +47,10 @@ int selectMenu(){ // 메뉴판
     printf("2. 예약\n");
     printf("3. 예약 취소\n");
     printf("4. 예약 변경\n");
-    printf("5. 시간 추가\n");
-    printf("6. 음식 주문\n");
-    printf("7. 리스트 저장\n");
-    printf("8. 예약자 검색\n");
+    printf("5. 음식 주문\n");
+    printf("6. 리스트 저장\n");
+    printf("7. 예약자 검색\n");
+    printf("8. 시간추가\n");
     printf("0. 종료\n\n");
     printf("=> 원하시는 메뉴를 고르세요! ");
     scanf("%d", &menu);
@@ -41,6 +58,8 @@ int selectMenu(){ // 메뉴판
 }
 
 int main(void){
+    int select = 0;
+    struct food_struct *Order[20];
     Seat slist[100];
     int index =0;
     int count = 0, menu;
@@ -84,13 +103,47 @@ int main(void){
             }
             updateReserv(&slist[no-1]);
 
-            }
+        }
         
-        else if(menu == 7){
+        else if (menu == 5){
+            int num = 0;
+            while(1){
+                printf("메뉴를 선택하세요 : ");
+                scanf("%d", &select);
+                Clear();
+                if(select == 1) {
+                    showlist(Order, select);
+                }
+                else if(select == 2) {
+                    num = plusfood(Order, select);
+                }
+                else if(select == 3) {
+                    num = deletefood(Order, select);
+                }
+                else if(select == 4) {
+                    order(Order, select);
+                }
+                else if(select == 0) menu = selectMenu();
+            }
+            
+            free(*Order);
+        }
+        
+        else if(menu == 6){
             saveData(slist, index);
         }
-        else if(menu == 8){
+        else if(menu == 7){
             searchReserv(slist, index);
+        }
+        else if(menu == 8){
+            printf("***********시간을 추가하고 싶은 사람을 고르세요.************\n");
+            int no = selectDataNo(slist, index);
+            if(no == 0){
+                printf("-->취소되었음!\n");
+                continue;
+            }
+            plusTime(&slist[no-1]);
+            printf("추가 되었습니다!\n");
         }
     }
     printf("종료됨!\n");
@@ -157,7 +210,8 @@ int updateReserv(Seat *s){
     printf("새 시간을 선택해주세요(3,6,9,12,24 중 선택):");
     scanf("%d", &s->seat_hour);
 
-    //가격저장 민제한테 물어보기
+    //가격저장
+    s->price = 1000*s->seat_hour;
 
     return 1;
 }
@@ -239,4 +293,104 @@ void searchReserv(Seat *s, int count){
     }
     if(scnt == 0) printf("=> 검색된 데이터 없음!");
     printf("\n");
+}
+
+int plusTime(Seat *s){
+    int origin_price = s->price; //원래가격
+    int origin_hour = s->seat_hour; //원래시간
+    int new_time = 0;
+    printf("몇시간을 추가하시겠습니까?:");
+    scanf("%d", &new_time);
+
+    int plus = 1000 * new_time; //새로운가격
+    int time = origin_hour + new_time; //새로운 시간
+
+    //새로운 값 저장
+    s->seat_hour = time;
+    s->price = origin_price+plus;
+
+    return 1;
+
+}
+
+
+void Clear(void)
+{
+   while (getchar() != '\n')
+      ;
+}
+
+void menu()
+{
+   printf("** 메뉴 **\n");
+   printf("라면 2500원\n");
+   printf("컵밥 3500원\n");
+   printf("아이스 아메리카노 2000원\n");
+   printf("자몽에이드 2500원\n");
+   printf("콜라 1500원\n");
+}
+
+void showlist(struct food_struct *p[], int count)
+{ // 5-1
+   printf("==========================\n");
+   printf("메뉴            가격  수량\n");
+   printf("==========================\n");
+   for (int i = 0; i < count; i++)
+   {
+      printf("%s                %d    %d\n", p[i]->menu, p[i]->price, p[i]->number);
+   }
+}
+
+int plusfood(struct food_struct *p[], int count)
+{ // 5-2
+   menu();
+   p[count] = (struct food_struct *)malloc(sizeof(struct food_struct));
+   printf("메뉴명 : ");
+   scanf("%[^\n]", p[count]->menu);
+   Clear();
+   printf("가격 : ");
+   scanf("%d", &p[count]->price);
+   printf("수량 : ");
+   scanf("%d", &p[count]->number);
+   printf("=> 음식이 주문되었습니다.\n");
+
+   return count + 1;
+}
+
+int deletefood(struct food_struct *p[], int count)
+{ // 5-3
+   int index;
+   printf("취소할 번호 (0 : 취소) : ");
+   scanf("%d", &index);
+   if (index == 0)
+      return count - 1;
+   else
+   {
+      for (int i = index - 1; i < count; i++)
+      {
+         p[i] = p[i + 1];
+      }
+      printf("=> 취소되었습니다\n");
+   }
+
+   return count - 1;
+}
+
+void order(struct food_struct *p[], int count)
+{ // 5-4
+   for (int i = 0; i < count; i++)
+   {
+      p[i]->menu[0] = '\0';
+      p[i]->price = -1;
+      p[i]->number = -1;
+   }
+
+   FILE *fp = fopen("studyCafe.txt", "w");
+
+   for (int i = 0; i < count; i++)
+   {
+      fprintf(fp, "%s\n%d\n%d\n", p[i]->menu, p[i]->price, p[i]->number);
+   }
+   fclose(fp);
+   printf("=> 주문이 저장 되었습니다.\n");
 }
